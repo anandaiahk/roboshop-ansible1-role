@@ -1,4 +1,4 @@
-- name: copy the mongo repo
+- name: copy mongo repo
   ansible.builtin.copy:
     src: mongo.repo
     dest: /etc/yum.repos.d/mongo.repo
@@ -8,19 +8,14 @@
     name: mongodb-org
     state: present
 
-- name: service start and enabled
-  ansible.builtin.service:
-    name: mongod
-    enabled: yes
-    state: started
-
 - name: allow remote connections
   ansible.builtin.replace:
     path: /etc/mongod.conf
     regexp: '127.0.0.1'
     replace: '0.0.0.0'
 
-- name: restart the service
+- name: start and enable mongodb
   ansible.builtin.service:
     name: mongod
-    state: restarted                 
+    enabled: yes
+    state: started
